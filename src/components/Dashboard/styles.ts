@@ -6,9 +6,11 @@ export const Container = styled.main`
 `;
 
 export const Content = styled.div`
-  margin: 0 auto;
   max-width: 1120px;
+  margin: 0 auto;
+`;
 
+export const SumaryContent = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2rem;
