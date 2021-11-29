@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
   :root {
@@ -12,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
 
     --title: #363f5f;
     --text: #969cb2;
-    --text-on-color: #fff;
+    --text-in-color: #fff;
   }
   
   * {
@@ -43,7 +43,7 @@ export const GlobalStyle = createGlobalStyle`
   }
   
   h1, h2, h3, strong {
-    font-weight: 600;
+    font-weight: 500;
   }
 
   button {

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.header`
   background: var(--primary);
@@ -15,10 +15,10 @@ export const Content = styled.div`
 
   button {
     font-size: 1rem;
-    color: var(--text-on-color);
+    color: var(--text-in-color);
     background: var(--primary-light);
     border: none;
-    border-radius: 0.2rem;
+    border-radius: 0.25rem;
     padding: 0.6rem 2rem;
     transition: 0.1s;
 
