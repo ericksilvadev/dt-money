@@ -4,6 +4,8 @@ export const GlobalStyle = createGlobalStyle`
   :root {
     --background: #f0f2f5;
     --box: #fff;
+    --input-bg: #e7e9ee;
+    --border: #d7d7d7;
   
     --primary: #5429cc;
     --primary-light: #6933ff;
@@ -20,6 +22,7 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
+    outline: none;
   }
 
   html {
@@ -53,5 +56,41 @@ export const GlobalStyle = createGlobalStyle`
   [disabled] {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+
+  .modal-overlay {
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background: var(--background);
+    width: 100%;
+    max-width: 575px;
+    padding: 3.5rem 3rem;
+    position: relative;
+    border-radius: 0.25rem;
+
+    & > button {
+      position: absolute;
+      right: 1.5rem;
+      top: 1.5rem;
+
+      background: none;
+      border: none;
+      transition: filter 0.2s;
+
+      &:hover {
+      filter: brightness(0.8);
+    }
+    }
   }
 `;
