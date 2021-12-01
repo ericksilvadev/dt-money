@@ -4,23 +4,77 @@ import { FormContainer, TransactionTypeContainer } from './styles';
 import closeIcon from '../../assets/close.svg';
 import incomeIcon from '../../assets/income.svg';
 import outcomeIcon from '../../assets/outcome.svg';
-import { useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
+import { TransactionsContext } from '../../context/TransactionsContext';
+
+interface ITransaction {
+  title: string;
+  value: number | null;
+  category: string;
+  date: Date;
+  type: string;
+}
+
+const initialValues = {
+  title: '',
+  value: null,
+  category: '',
+  date: new Date(),
+  type: '',
+};
 
 export function NewTransactionModal() {
+  const { isModalOpen, setIsModalOpen, setTransactions, transactions } =
+    useContext(TransactionsContext);
+  const [newTransaction, setNewTransaction] =
+    useState<ITransaction>(initialValues);
   const [transactionType, setTransactionType] = useState('deposit');
+
+  const handleChange = ({ target }: any) => {
+    const { name, value } = target;
+
+    setNewTransaction({
+      ...newTransaction,
+      [name]: value,
+      type: transactionType,
+    });
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    setTransactions([...transactions, newTransaction]);
+    setNewTransaction(initialValues);
+  };
+
   return (
     <Modal
-      isOpen={false}
+      isOpen={isModalOpen}
+      onRequestClose={() => setIsModalOpen(false)}
       overlayClassName="modal-overlay"
       className="modal-content"
     >
-      <button type="button">
+      <button type="button" onClick={() => setIsModalOpen(false)}>
         <img src={closeIcon} alt="Close modal" />
       </button>
-      <FormContainer>
+      <FormContainer onSubmit={handleSubmit}>
         <h2>Create new transaction</h2>
-        <input type="text" placeholder="title" />
-        <input type="numer" placeholder="value" />
+        <input
+          name="title"
+          value={newTransaction.title}
+          type="text"
+          placeholder="Title"
+          onChange={handleChange}
+          autoComplete="no"
+        />
+        <input
+          name="value"
+          value={newTransaction.value || ''}
+          type="numer"
+          placeholder="Value"
+          onChange={handleChange}
+          autoComplete="no"
+        />
         <TransactionTypeContainer>
           <button
             type="button"
@@ -39,8 +93,15 @@ export function NewTransactionModal() {
             <span>Withdraw</span>
           </button>
         </TransactionTypeContainer>
-        <input type="text" placeholder="category" />
-        <button type="button">Register</button>
+        <input
+          name="category"
+          value={newTransaction.category}
+          type="text"
+          placeholder="Category"
+          onChange={handleChange}
+          autoComplete="no"
+        />
+        <button type="submit">Register</button>
       </FormContainer>
     </Modal>
   );

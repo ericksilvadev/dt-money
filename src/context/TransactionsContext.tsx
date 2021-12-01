@@ -6,48 +6,49 @@ interface IProvider {
 
 interface ITransaction {
   title: string;
-  value: number;
+  value: number | null;
   category: string;
-  date: string;
+  date: Date;
   type: string;
 }
 
 interface ITransactionsContext {
-  newTransaction: ITransaction;
-  setNewTransaction: (param: ITransaction) => void;
+  setTransactions: (param: ITransaction[]) => void;
   transactions: ITransaction[];
+  isModalOpen: boolean;
+  setIsModalOpen: (param: boolean) => void;
 }
 
-const initialValues = {
-  title: '',
-  value: 0,
-  category: '',
-  date: '',
-  type: '',
-};
-
-const TransactionsContext = createContext({} as ITransactionsContext);
+export const TransactionsContext = createContext({} as ITransactionsContext);
 
 export const TransactionsProvider = ({ children }: IProvider) => {
-  const [newTransaction, setNewTransaction] =
-    useState<ITransaction>(initialValues);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
 
   useEffect(() => {
     const storageTransactions = localStorage.getItem('transactions');
 
     if (storageTransactions) {
-      localStorage.setItem(
-        'transactions',
-        JSON.stringify([...JSON.parse(storageTransactions), newTransaction])
-      );
-    } else {
-      localStorage.setItem('transactions', JSON.stringify([newTransaction]));
+      localStorage.setItem('transactions', JSON.stringify(transactions));
     }
-  }, [newTransaction]);
+  }, [transactions]);
+
+  useEffect(() => {
+    const storageTransactions = localStorage.getItem('transactions');
+
+    if (storageTransactions) {
+      setTransactions(JSON.parse(storageTransactions));
+    }
+  }, []);
+
   return (
     <TransactionsContext.Provider
-      value={{ newTransaction, setNewTransaction, transactions }}
+      value={{
+        setTransactions,
+        transactions,
+        isModalOpen,
+        setIsModalOpen,
+      }}
     >
       {children}
     </TransactionsContext.Provider>
