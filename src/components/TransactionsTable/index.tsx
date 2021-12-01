@@ -1,30 +1,46 @@
+import { useContext } from 'react';
+import { TransactionsContext } from '../../context/TransactionsContext';
 import { Container } from './styles';
 
 export const TransactionsTable = () => {
+  const { transactions } = useContext(TransactionsContext);
+  // if (!transactions.length) return <div>loading...</div>;
   return (
     <Container>
       <table>
         <thead>
-          <th>Title</th>
-          <th>Value</th>
-          <th>Cateory</th>
-          <th>Date</th>
+          <tr>
+            <th>Title</th>
+            <th>Value</th>
+            <th>Cateory</th>
+            <th>Date</th>
+          </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Desenvolvimento de site</td>
-            <td className="deposit">U$ 10.000,00</td>
-            <td>Sale</td>
-            <td>13/04/2021</td>
-          </tr>
-          <tr>
-            <td>Rent</td>
-            <td className="withdraw">- U$ 1.000,00</td>
-            <td>Bill</td>
-            <td>05/04/2021</td>
-          </tr>
+          {transactions.map((transaction) => {
+            console.log(transaction.date);
+            return (
+              <tr key={String(transaction.title + transaction.value)}>
+                <td>{transaction.title}</td>
+                <td className={transaction.type}>
+                  {transaction.type === 'withdraw' && <span>-</span>}
+                  {new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                  }).format(Number(transaction.value))}
+                </td>
+                <td>{transaction.category}</td>
+                <td>
+                  {new Intl.DateTimeFormat('en-US').format(
+                    new Date(transaction.date)
+                  )}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
+      {/* {!transactions.length && <p>No transactions registered yet.</p>} */}
     </Container>
   );
 };

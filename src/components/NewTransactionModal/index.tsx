@@ -11,7 +11,7 @@ interface ITransaction {
   title: string;
   value: number | null;
   category: string;
-  date: Date;
+  date: number;
   type: string;
 }
 
@@ -19,7 +19,7 @@ const initialValues = {
   title: '',
   value: null,
   category: '',
-  date: new Date(),
+  date: Date.now(),
   type: '',
 };
 
@@ -37,6 +37,7 @@ export function NewTransactionModal() {
       ...newTransaction,
       [name]: value,
       type: transactionType,
+      date: Date.now(),
     });
   };
 
@@ -45,6 +46,7 @@ export function NewTransactionModal() {
 
     setTransactions([...transactions, newTransaction]);
     setNewTransaction(initialValues);
+    setIsModalOpen(false);
   };
 
   return (

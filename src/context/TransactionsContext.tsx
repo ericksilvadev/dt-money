@@ -8,7 +8,7 @@ interface ITransaction {
   title: string;
   value: number | null;
   category: string;
-  date: Date;
+  date: number;
   type: string;
 }
 
@@ -29,17 +29,19 @@ export const TransactionsProvider = ({ children }: IProvider) => {
     const storageTransactions = localStorage.getItem('transactions');
 
     if (storageTransactions) {
-      localStorage.setItem('transactions', JSON.stringify(transactions));
-    }
-  }, [transactions]);
-
-  useEffect(() => {
-    const storageTransactions = localStorage.getItem('transactions');
-
-    if (storageTransactions) {
+      console.log(JSON.parse(storageTransactions));
       setTransactions(JSON.parse(storageTransactions));
     }
   }, []);
+
+  useEffect(() => {
+    console.log('aqui');
+    console.log(transactions);
+
+    if (transactions.length) {
+      localStorage.setItem('transactions', JSON.stringify(transactions));
+    }
+  }, [transactions]);
 
   return (
     <TransactionsContext.Provider
