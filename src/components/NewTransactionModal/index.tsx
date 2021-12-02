@@ -6,16 +6,8 @@ import { FormContainer, TransactionTypeContainer } from './styles';
 import closeIcon from '../../assets/close.svg';
 import incomeIcon from '../../assets/income.svg';
 import outcomeIcon from '../../assets/outcome.svg';
-import { FormEvent, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { TransactionsContext } from '../../context/TransactionsContext';
-
-interface ITransaction {
-  title: string;
-  value: number | null;
-  category: string;
-  date: number;
-  type: string;
-}
 
 const initialValues = {
   title: '',
@@ -46,6 +38,7 @@ export function NewTransactionModal() {
           ...values,
           date: Date.now(),
           type: transactionType,
+          id: Math.random().toString(36).substr(2, 9),
         },
       ]);
       setIsModalOpen(false);

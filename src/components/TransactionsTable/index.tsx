@@ -1,10 +1,20 @@
 import { useContext } from 'react';
+
 import { TransactionsContext } from '../../context/TransactionsContext';
 import { Container } from './styles';
+import closeIcon from '../../assets/close.svg';
 
 export const TransactionsTable = () => {
-  const { transactions } = useContext(TransactionsContext);
-  // if (!transactions.length) return <div>loading...</div>;
+  const { transactions, setTransactions } = useContext(TransactionsContext);
+
+  const handleTransactionDelete = (id: string) => {
+    const filterdTransactions = transactions.filter(
+      (transaction) => transaction.id !== id
+    );
+
+    setTransactions(filterdTransactions);
+  };
+
   return (
     <Container>
       <table>
@@ -34,6 +44,13 @@ export const TransactionsTable = () => {
                   {new Intl.DateTimeFormat('en-US').format(
                     new Date(transaction.date)
                   )}
+
+                  <button
+                    type="button"
+                    onClick={() => handleTransactionDelete(transaction.id)}
+                  >
+                    <img src={closeIcon} alt="Close modal" />
+                  </button>
                 </td>
               </tr>
             );

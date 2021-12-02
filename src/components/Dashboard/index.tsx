@@ -32,6 +32,9 @@ export function Dashboard() {
           />
         </SumaryContent>
         <TransactionsTable />
+        {!transactions.length && (
+          <p className="no-transactions">No transactions registered yet.</p>
+        )}
       </Content>
     </Container>
   );

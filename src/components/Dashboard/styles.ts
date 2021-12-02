@@ -8,6 +8,12 @@ export const Container = styled.main`
 export const Content = styled.div`
   max-width: 1120px;
   margin: 0 auto;
+
+  .no-transactions {
+    text-align: center;
+    color: var(--text);
+    font-size: 1.2rem;
+  }
 `;
 
 export const SumaryContent = styled.div`

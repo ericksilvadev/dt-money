@@ -25,6 +25,21 @@ export const Container = styled.div`
 
       &:last-child {
         border-radius: 0 0.25rem 0.25rem 0;
+
+        display: flex;
+        justify-content: space-between;
+
+        button {
+          display: flex;
+          align-items: center;
+          background: none;
+          border: none;
+          transition: filter 0.2s;
+
+          &:hover {
+            filter: brightness(0.8);
+          }
+        }
       }
 
       &.withdraw {

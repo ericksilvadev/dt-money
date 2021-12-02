@@ -10,6 +10,7 @@ interface ITransaction {
   category: string;
   date: number;
   type: string;
+  id: string;
 }
 
 interface ITransactionsContext {
