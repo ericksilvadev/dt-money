@@ -1,4 +1,6 @@
 import Modal from 'react-modal';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 import { FormContainer, TransactionTypeContainer } from './styles';
 import closeIcon from '../../assets/close.svg';
@@ -26,28 +28,29 @@ const initialValues = {
 export function NewTransactionModal() {
   const { isModalOpen, setIsModalOpen, setTransactions, transactions } =
     useContext(TransactionsContext);
-  const [newTransaction, setNewTransaction] =
-    useState<ITransaction>(initialValues);
   const [transactionType, setTransactionType] = useState('deposit');
 
-  const handleChange = ({ target }: any) => {
-    const { name, value } = target;
+  const validationSchema = yup.object({
+    title: yup.string().required().max(25).min(1),
+    value: yup.number().required().integer(),
+    category: yup.string().required().max(25).min(1),
+  });
 
-    setNewTransaction({
-      ...newTransaction,
-      [name]: value,
-      type: transactionType,
-      date: Date.now(),
-    });
-  };
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-
-    setTransactions([...transactions, newTransaction]);
-    setNewTransaction(initialValues);
-    setIsModalOpen(false);
-  };
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: (values) => {
+      setTransactions([
+        ...transactions,
+        {
+          ...values,
+          date: Date.now(),
+          type: transactionType,
+        },
+      ]);
+      setIsModalOpen(false);
+    },
+  });
 
   return (
     <Modal
@@ -59,23 +62,29 @@ export function NewTransactionModal() {
       <button type="button" onClick={() => setIsModalOpen(false)}>
         <img src={closeIcon} alt="Close modal" />
       </button>
-      <FormContainer onSubmit={handleSubmit}>
+      <FormContainer onSubmit={formik.handleSubmit}>
         <h2>Create new transaction</h2>
         <input
           name="title"
-          value={newTransaction.title}
+          value={formik.values.title}
           type="text"
           placeholder="Title"
-          onChange={handleChange}
+          onChange={formik.handleChange}
           autoComplete="no"
+          className={
+            formik.touched.title && Boolean(formik.errors.title) ? 'error' : ''
+          }
         />
         <input
           name="value"
-          value={newTransaction.value || ''}
+          value={formik.values.value || ''}
           type="numer"
           placeholder="Value"
-          onChange={handleChange}
+          onChange={formik.handleChange}
           autoComplete="no"
+          className={
+            formik.touched.value && Boolean(formik.errors.value) ? 'error' : ''
+          }
         />
         <TransactionTypeContainer>
           <button
@@ -97,11 +106,16 @@ export function NewTransactionModal() {
         </TransactionTypeContainer>
         <input
           name="category"
-          value={newTransaction.category}
+          value={formik.values.category}
           type="text"
           placeholder="Category"
-          onChange={handleChange}
+          onChange={formik.handleChange}
           autoComplete="no"
+          className={
+            formik.touched.category && Boolean(formik.errors.category)
+              ? 'error'
+              : ''
+          }
         />
         <button type="submit">Register</button>
       </FormContainer>

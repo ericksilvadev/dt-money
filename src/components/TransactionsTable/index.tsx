@@ -12,7 +12,7 @@ export const TransactionsTable = () => {
           <tr>
             <th>Title</th>
             <th>Value</th>
-            <th>Cateory</th>
+            <th>Category</th>
             <th>Date</th>
           </tr>
         </thead>

@@ -33,6 +33,10 @@ export const FormContainer = styled.form`
     &:focus {
       border-bottom: 2px solid var(--secondary);
     }
+
+    &.error {
+      border-bottom-color: var(--red);
+    }
   }
 
   & > button {

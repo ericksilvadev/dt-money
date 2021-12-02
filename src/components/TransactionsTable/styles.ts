@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  margin-top: 3rem;
+  margin: 3rem 0;
   table {
     width: 100%;
     color: var(--text);
