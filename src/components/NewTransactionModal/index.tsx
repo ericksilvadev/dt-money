@@ -17,6 +17,8 @@ const initialValues = {
   type: '',
 };
 
+Modal.setAppElement('#root');
+
 export function NewTransactionModal() {
   const { isModalOpen, setIsModalOpen, setTransactions, transactions } =
     useContext(TransactionsContext);
